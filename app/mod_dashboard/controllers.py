@@ -12,7 +12,7 @@ mod_dash = Blueprint('dash', __name__, url_prefix='/')
 @mod_dash.route('/dashboard')
 @mod_dash.route('/home')
 @mod_dash.route('/')
-@login_required
+# @login_required
 def main_page():
 
     return render_template("dashboard/dash_main.html")
