@@ -39,10 +39,11 @@ def not_found(error):
 
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.mod_auth.controllers import mod_auth
+from app.mod_dashboard.controllers import mod_dash
 
 # Register blueprint(s)
 app.register_blueprint(mod_auth)
-
+app.register_blueprint(mod_dash)
 
 # Create Login Manager and innitiate session management
 login_manager = LoginManager()
