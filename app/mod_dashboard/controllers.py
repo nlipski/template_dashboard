@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from app import db
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_dash = Blueprint('dash', __name__, url_prefix='/')
+mod_dash = Blueprint('mod_dash', __name__, url_prefix='/')
 
 @mod_dash.route('/dashboard')
 @mod_dash.route('/home')

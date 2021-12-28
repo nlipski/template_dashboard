@@ -61,9 +61,16 @@ def signup():
     
         new_user = User(email = form.email.data,
                         name = form.name.data,
-                        password_hash = generate_password_hash(form.password.data))
+                        password = generate_password_hash(form.password.data),
+                        role = 0,
+                        status = 0)
 
         db.session.add(new_user)
         db.session.commit()
 
     return render_template("auth/signup.html", form=form)
+
+@mod_auth.route('/profile')
+@login_required
+def profile():
+    return render_template("auth/profile.html", name=current_user.name)

@@ -18,7 +18,8 @@ from flask_admin.contrib.sqla import ModelView
 app = Flask(__name__)
 
 # Configurations
-app.config.from_object('config')
+from config import DevelopmentConfig
+app.config.from_object(DevelopmentConfig)
 
 # Define the database object which is imported
 # by modules and controllers
@@ -47,7 +48,7 @@ app.register_blueprint(mod_dash)
 
 # Create Login Manager and innitiate session management
 login_manager = LoginManager()
-login_manager.login_view = 'mod_auth.login'
+login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
 from app.mod_auth.models import User
@@ -64,6 +65,9 @@ db.create_all()
 admin = Admin(app, name='dashboard', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(User))
 
 
 def create_app(config_filename):
