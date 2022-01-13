@@ -18,6 +18,7 @@ from app.mod_auth.models import User
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 # Set the route and accepted methods
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,12 +64,13 @@ def signup():
                         name = form.name.data,
                         password = generate_password_hash(form.password.data),
                         role = 0,
-                        status = 0)
+                        status = 1)
 
         db.session.add(new_user)
         db.session.commit()
 
     return render_template("auth/signup.html", form=form)
+
 
 @mod_auth.route('/profile')
 @login_required

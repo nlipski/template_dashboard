@@ -24,6 +24,11 @@ class User(Base):
 
     # Authorisation Data: role & status
     role     = db.Column(db.SmallInteger, nullable=False)
+
+    # statuses:
+    # 0 - inactivated
+    # 1 - activated
+    # 2 - blocked
     status   = db.Column(db.SmallInteger, nullable=False)
 
     # New instance instantiation procedure
