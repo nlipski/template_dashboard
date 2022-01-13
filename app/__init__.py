@@ -1,6 +1,9 @@
 # Import flask and template operators
 from flask import Flask, render_template
 
+# Import Celery for background tasks 
+from celery import Celery
+
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
@@ -16,6 +19,12 @@ from flask_admin.contrib.sqla import ModelView
 
 # Define the WSGI application object
 app = Flask(__name__)
+
+# Create a Celery instance
+app.config['CELERY_BROKER_URL'] = '127.0.0.1:6379'
+app.config['CELERY_RESULT_BACKEND'] = '127.0.0.1:6379'
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 # Configurations
 from config import DevelopmentConfig
