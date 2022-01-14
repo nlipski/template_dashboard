@@ -32,11 +32,13 @@ class User(Base):
     status   = db.Column(db.SmallInteger, nullable=False)
 
     # New instance instantiation procedure
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, role, status):
 
         self.name     = name
         self.email    = email
         self.password = password
+        self.role     = role
+        self.status   = status
 
     def __repr__(self):
         return '<User %r>' % (self.name)    

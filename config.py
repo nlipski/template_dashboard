@@ -31,6 +31,11 @@ class Config(object):
     # Set Bootswatch theme
     FLASK_ADMIN_SWATCH = 'cerulean'
 
+
+    # Enable modifications to the db
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
 class ProductionConfig(Config):
     DEBUG = False
 

@@ -46,30 +46,30 @@ def login():
     return render_template("auth/login.html", form=form)
 
 
-@mod_auth.route('/signup', methods=['GET', 'POST'])
+
+@mod_auth.route('/signup', methods=['GET','POST'])
 def signup():
 
     form = SignupForm(request.form)
-
     # Verify the sign in form
-    if form.validate_on_submit():
+    if request.method == 'POST': #and form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
     # Receieve signup parameters
     # Check if the email already exists
         if user:
             flash('Email already exists, please use Login page')
             return redirect(url_for('auth.login'))
-    
+        
         new_user = User(email = form.email.data,
-                        name = form.name.data,
+                        name = form.username.data,
                         password = generate_password_hash(form.password.data),
                         role = 0,
                         status = 1)
-
         db.session.add(new_user)
         db.session.commit()
+        return redirect(url_for('auth.login'))
 
-    return render_template("auth/signup.html", form=form)
+    return render_template('auth/signup.html', form=form)
 
 
 @mod_auth.route('/profile')
