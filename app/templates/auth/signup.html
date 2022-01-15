@@ -28,6 +28,7 @@
                     {{ form.recaptcha }}
                 </div>
             </div> -->
+            {{ form.csrf_token}}
             {{ form.submit(class="button is-block is-info is-large is-fullwidth") }}
         </form>
     </div>

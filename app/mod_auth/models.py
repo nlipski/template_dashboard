@@ -1,4 +1,5 @@
 from app import db
+from flask_login import UserMixin
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
@@ -10,8 +11,12 @@ class Base(db.Model):
     date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
                                            onupdate=db.func.current_timestamp())
 
+#@login_manager.user_loader
+#def load_user(user_id):
+#    return User.query.get(int(user_id))
+
 # Define a User model
-class User(Base):
+class User(Base, UserMixin):
 
     __tablename__ = 'auth_user'
 
@@ -41,4 +46,4 @@ class User(Base):
         self.status   = status
 
     def __repr__(self):
-        return '<User %r>' % (self.name)    
+        return '<User %r, %r, %r>' % (self.name, self.email, self.password)

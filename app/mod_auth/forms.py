@@ -10,7 +10,7 @@ from wtforms.validators import DataRequired, EqualTo, Email
 # Define the login form (WTForms)
 class LoginForm(FlaskForm):
     email    = StringField('Email Address', [Email(), DataRequired(message='Forgot your email?')])
-    password = PasswordField('Password', [DataRequired(message='Forgot your password')])
+    password = PasswordField('Password', [DataRequired(message='Forgot your password?')])
     # recaptcha = RecaptchaField()
     remember = BooleanField('Remember Me')
     submit = SubmitField('Sign In')

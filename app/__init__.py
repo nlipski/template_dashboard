@@ -62,10 +62,6 @@ login_manager.init_app(app)
 
 from app.mod_auth.models import User
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
 # Build the database:
 # This will create the database file using SQLAlchemy
 db.create_all()
@@ -74,10 +70,11 @@ db.create_all()
 admin = Admin(app, name='dashboard', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
 
+
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(User))
-
+    return User.query.get(int(user_id))
 
 def create_app(config_filename):
     app = Flask(__name__)
