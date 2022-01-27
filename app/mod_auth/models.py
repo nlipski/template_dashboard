@@ -1,7 +1,9 @@
 from app import db
+from flask_sqlalchemy import column_property
+from flask_login import UserMixin
 
 # Define a base model for other database tables to inherit
-class Base(db.Model):
+class base_auth(db.Model):
 
     __abstract__  = True
 
@@ -10,20 +12,28 @@ class Base(db.Model):
     date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
                                            onupdate=db.func.current_timestamp())
 
-# Define a User model
-class User(Base):
+class user_model(UserMixin, base_auth):    
+    username = db.Column(db.String(100), unique=True)
+    
+    email           = db.Column(db.String(100), unique=True)
+    password_hash   = db.Column(db.String(128))
+    
+    first_name      = db.Column(db.String(50))
+    last_name       = db.Column(db.String(50))
+    fullname        = column_property(firstname + " " + lastname)
 
-    __tablename__ = 'auth_user'
+    # Personal address
+    address         = db.Column(db.String(50), nullable=True)
+    city            = db.Column(db.String(50), nullable=True)
+    country         = db.Column(db.String(50), nullable=True)
+    postal_code     = db.Column(db.String(50), nullable=True)
 
-    # User Name
-    name    = db.Column(db.String(128), nullable=False)
-
-    # Identification Data: email & password
-    email    = db.Column(db.String(128), nullable=False, unique=True)
-    password = db.Column(db.String(192),  nullable=False)
+    # Groups
+    workgroup       = db.Column(db.String(50), nullable=True)
+    company         = db.Column(db.String(50), nullable=True)
 
     # Authorisation Data: role & status
-    role     = db.Column(db.SmallInteger, nullable=False)
+    role            = db.Column(db.SmallInteger, nullable=False)
 
     # statuses:
     # 0 - inactivated
@@ -31,12 +41,5 @@ class User(Base):
     # 2 - blocked
     status   = db.Column(db.SmallInteger, nullable=False)
 
-    # New instance instantiation procedure
-    def __init__(self, name, email, password):
-
-        self.name     = name
-        self.email    = email
-        self.password = password
-
     def __repr__(self):
-        return '<User %r>' % (self.name)    
+        return '<User %r>' % (self.fullname) 
